@@ -1,9 +1,6 @@
-const Koa = require('koa');
-
+const Koa = require('koa')
 const app = new Koa()
-
 app.use(async (ctx, next) => {
-	ctx.body = 'hi ljh'
+	ctx.body = '电影首页'
 })
-
-app.listen(2333)
+app.listen(4455)
