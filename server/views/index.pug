@@ -1,0 +1,71 @@
+extends ./layouts/default
+
+block title
+  title koa douban index
+block content
+  include ./includes/header
+  .container-fluid
+    .col-12.col-md-3.col-xl-2.sidebar
+      .cat-links
+        .sldebar-item.active
+          a.slidebar-link(href='/') links
+          ul.nav.sldebar-inner
+            li.active.sidebar-inner-active
+              a(href='/') link1
+            li.sidebar-inner-active
+              a(href='/') link2
+    .col-12.col-md-10.col-xl-10.py-md-3.pl-md-5.content
+      .row
+        .col-md-6
+          .card
+            img.card-img-top(src='https://img1.doubanio.com/view/photo/m/public/p2512005529.webp', data-video='http://ips.ifeng.com/video19.ifeng.com/video09/2018/10/28/p3821785-102-009-002538.mp4?vid=e13d56b7-d1e2-4428-a27a-9d88ec63765b&uid=1541223693677_cziaro7466&from=v_Free&pver=vHTML5Player_v2.0.0&sver=&se=%E5%9B%BD%E8%B6%B3%E4%BD%A0%E9%86%92%E9%86%92%E5%95%8A&cat=81&ptype=81&platform=pc&sourceType=h5&dt=1538841600000&gid=hK05AWbYF2ce&sign=4ca820e03df9b2776166be36150be249&tm=1541223704352')
+            .card-body
+              h4.card-title 这是电影标题
+              p.card-desc 这是电影描述
+            .card-footer
+              small.text-muted 1 天前更新
+        .col-md-6
+          .card
+            img.card-img-top(src='https://img1.doubanio.com/view/photo/m/public/p2512005529.webp', data-video='https://movie.douban.com/trailer/238213/#content')
+            .card-body
+              h4.card-title 这是电影标题
+              p.card-desc 这是电影描述
+            .card-footer
+              small.text-muted 1 天前更新
+  #myModal.modal.fade.bd-example-lg(role='dialog', aria-labelledby='myLargeModalLabel', aria-hidden='true')
+    .modal-dialog.modal-lg
+      #videoModal.modal-content
+
+  include ./includes/script
+  script.
+    var player = null
+    $(document).ready(function () {
+      $('#myModal').on('hidden.bs.modal', function(e) {
+        if (player && player.pause) player.pause()
+      })
+      $('.card-img-top').click(function(e) {
+        var video = $(this).data('video')
+        var image = $(this).attr('src')
+        $('#myModal').modal('show')
+        console.log(video, image);
+        if (!player) {
+          player = new DPlayer({
+            container: document.getElementById('videoModal'),
+            screenshot: true,
+            video: {
+              url: video,
+              pic: image,
+              thumbnails: image
+            }
+          })
+        } else {
+          if (play.video.currentSrc !== video) {
+            player.switchVedio({
+              url: video,
+              pic: image,
+              type: 'auto'
+            })
+          }
+        }
+      })
+    })
